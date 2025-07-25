@@ -3,7 +3,10 @@
 
 # Ignore all output folders anywhere in the repository
 **/output/
+
+# Ignore compiled Java class files
 **/class/
+**/*.class
 
 **/Test.c
 **/Test.java
