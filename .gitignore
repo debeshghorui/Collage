@@ -1,0 +1,14 @@
+# Ignore VS Code settings
+/.vscode
+
+# Ignore all output folders anywhere in the repository
+**/output/
+**/class/
+
+**/Test.c
+**/Test.java
+**/Test.py
+
+# Ignore temporary files
+*.tmp
+/desktop.ini
