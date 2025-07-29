@@ -1,65 +1,110 @@
-
 #include <stdio.h>
-#define MAX 100
+#define SIZE 5
 
-int stack[MAX];
-int top = -1;
+typedef struct
+{
+    int data[SIZE];
+    int top; // top of stack
 
-void push(int value) {
-    if (top >= MAX - 1) {
-        printf("Stack Overflow!\n");
-    } else {
-        stack[++top] = value;
-        printf("%d pushed to stack.\n", value);
-    }
-}
+} stack;
 
-int pop() {
-    if (top < 0) {
-        printf("Stack Underflow!\n");
-        return -1;
-    } else {
-        int value = stack[top--];
-        printf("%d popped from stack.\n", value);
-        return value;
-    }
-}
+void init(stack *);
+int isempty(stack *ptr);
+int isfull(stack *ptr);
+void push(stack *, int);
+int pop(stack *);
+int peek(stack *);
 
-void display() {
-    if (top < 0) {
-        printf("Stack is empty.\n");
-    } else {
-        printf("Stack elements: ");
-        for (int i = 0; i <= top; i++) {
-            printf("%d ", stack[i]);
-        }
-        printf("\n");
-    }
-}
+int main()
+{
+    stack sta;
+    // stack *ptr = &sta;
 
-int main() {
-    int choice, value;
-    while (1) {
-        printf("\n1. PUSH\n2. POP\n3. DISPLAY\n4. EXIT\n");
-        printf("Enter your choice: ");
+    int choice, item;
+    int popValue, peekValue;
+
+    init(&sta);
+
+    while (1)
+    {
+        printf("\nEnter 1 to PUSH \nEnter 2 to POP \nEnter 3 to PEEK \nEnter 4 to Exit\n");
+        printf("Enter your choice : ");
         scanf("%d", &choice);
-        switch (choice) {
-            case 1:
-                printf("Enter value to PUSH: ");
-                scanf("%d", &value);
-                push(value);
-                break;
-            case 2:
-                pop();
-                break;
-            case 3:
-                display();
-                break;
-            case 4:
-                return 0;
-            default:
-                printf("Invalid choice!\n");
+
+        switch (choice)
+        {
+        case 1:
+            printf("Enter the item to push : \n");
+            scanf("%d", &item);
+            push(&sta, item);
+            break;
+
+        case 2:
+            popValue = pop(&sta);
+            if (popValue == -999)
+                printf("Stack is empty\n");
+            else
+                printf("%d is popped from stack\n", popValue);
+            break;
+
+        case 3:
+            peekValue = peek(&sta);
+            if (peekValue == -999)
+                printf("Stack is empty\n");
+            else
+                printf("The topmost item in stack is : %d\n", peekValue);
+            break;
+
+        case 4:
+            return 0;
         }
     }
-    return 0;
+}
+
+void init(stack *ptr)
+{
+    ptr->top = -1;
+}
+
+int isempty(stack *ptr)
+{
+    if (ptr->top == -1)
+        return 1;
+    else
+        return 0;
+}
+
+int isfull(stack *ptr)
+{
+    if (ptr->top == SIZE - 1)
+        return 1;
+    else
+        return 0;
+}
+
+void push(stack *ptr, int item)
+{
+    if (isfull(ptr) == 1)
+        printf("Stack full\n");
+    else
+    {
+        ++ptr->top;
+        ptr->data[ptr->top] = item;
+    }
+}
+
+int pop(stack *ptr)
+{
+    if (isempty(ptr) == 1)
+        return -999;
+    else
+        return (ptr->data[ptr->top--]);
+}
+
+int peek(stack *ptr)
+{
+    if (isempty(ptr) == 1)
+        return -999;
+    else
+        return (ptr->data[ptr->top]);
 }
